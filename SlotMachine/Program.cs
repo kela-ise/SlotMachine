@@ -14,6 +14,7 @@ namespace SlotMachine
             const int VERTICAL_MODE = 2;
             const int HORIZONTAL_MODE = 3;
             const int DIAGONAL_MODE = 4;
+            int centerRow = SLOT_ROWS / 2;  // Dynamically calculate middle row index
             int budget = 20; // Player's initial budget
             int BUDGET_INCREMENTER = 2;
             Random random = new Random(); // Random number generator for slot machine spins
@@ -55,18 +56,19 @@ namespace SlotMachine
 
             
             bool checkWin = false;
-            // Check if the player selected center row check
-            if (checkSpin == CENTER_MODE)
-            {
-                int centerRow = 1; // Middle row in a 3x3 grid (0-based index)
 
-                if (slotGrid[centerRow, 0] == slotGrid[centerRow, 1] &&
-                    slotGrid[centerRow, 1] == slotGrid[centerRow, 2])
+
+            if (checkSpin == CENTER_MODE) // Check if the player selected center row check
+            {
+                for (int col = 1; col < SLOT_COLUMNS; col++)
                 {
-                    checkWin = true;
+                    if (slotGrid[centerRow, 0] == slotGrid[centerRow, 1] &&
+                    slotGrid[centerRow, 1] == slotGrid[centerRow, 2])
+                    {
+                        checkWin = true;
+                    }
                 }
             }
-
             if (checkWin)
             {
                 int winnings = wager + BUDGET_INCREMENTER;
