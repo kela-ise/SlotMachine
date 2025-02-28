@@ -20,10 +20,10 @@ namespace SlotMachine
             */
             const int DIAGONAL_MODE = 4;
             const int COLUMN_ONE = 0;
-
+            const string INVALID_CHOICE_MESSAGE = "Invalid choice. Please enter a number between 1 and 4.";
             int centerRow = SLOT_ROWS / 2;  // Dynamically calculate middle row index
             int budget = 20; // Player's initial budget
-         
+
             Console.WriteLine("This is a Slot Machine Game!");
             Console.WriteLine($"You have ${budget} in your account");
             Console.Write($"You have ${budget}, Enter your wager amount ");
@@ -35,7 +35,7 @@ namespace SlotMachine
             //Console.Write("Enter a number between 1 & 4 to check spin: ");
             if (wager < MIN_WAGER || wager > budget)
             {
-                Console.WriteLine("Invalid wager amount. Please enter a value within your budget.");
+                Console.WriteLine(INVALID_CHOICE_MESSAGE);
                 return;
             }
 
@@ -49,14 +49,14 @@ namespace SlotMachine
                 }
                 Console.WriteLine();
             }
-            
+
             budget = budget - wager;// Deduct wager from budget
 
             Console.Write("Enter 1 to check center line: ");
             int checkSpin = Convert.ToInt32(Console.ReadLine());  // Get spin check mode
 
             // Validate spin selection
-            if (checkSpin < CENTER_MODE || checkSpin >  DIAGONAL_MODE)
+            if (checkSpin < CENTER_MODE || checkSpin > DIAGONAL_MODE)
             {
                 Console.WriteLine("Invalid choice. Please enter a number between 1 and 4.");
                 return;
@@ -66,7 +66,7 @@ namespace SlotMachine
             if (checkSpin == CENTER_MODE) // Check if the player selected center row check
                 for (int col = 1; col < SLOT_COLUMNS; col++)
                 {
-                    if (slotGrid[centerRow, COLUMN_ONE]!= slotGrid[centerRow, col])
+                    if (slotGrid[centerRow, COLUMN_ONE] != slotGrid[centerRow, col])
                     {
                         checkWin = false;
                         break;
@@ -78,7 +78,7 @@ namespace SlotMachine
                 int winnings = wager + BUDGET_INCREMENTER;
                 budget += winnings;
                 Console.WriteLine($"There's a match. You Won ${winnings}");
-               // Console.WriteLine(++winCount);
+                // Console.WriteLine(++winCount);
             }
             else
             {
@@ -86,6 +86,6 @@ namespace SlotMachine
             }
             Console.WriteLine($"Your remaining budget: ${budget}");
 
-        } 
+        }
     }
 }
