@@ -15,12 +15,11 @@ namespace SlotMachine
             const int UPPER_LIMIT_INCREMENTER = 1;
             const int MIN_WAGER = 1;
             const int INITIAL_BUDGET = 20;
-            /*
             const int VERTICAL_MODE = 2;
             const int HORIZONTAL_MODE = 3;
-            */
             const int DIAGONAL_MODE = 4;
             const int COLUMN_ONE = 0;
+            const int ROW_ONE = 0;
             const string INVALID_CHOICE_MESSAGE = "Invalid choice. Please enter a number between 1 and 4.";
             int centerRow = SLOT_ROWS / 2;  // Dynamically calculate middle row index 
             int budget = INITIAL_BUDGET;   // Player's initial budget
@@ -53,7 +52,8 @@ namespace SlotMachine
 
             budget = budget - wager;// Deduct wager from budget
 
-            Console.Write("Enter 1 to check center line: ");
+            Console.Write("Enter a number to check spin. 1: Center, 2: Vertical, 3: Horizontal:  ");
+
             int checkSpin = Convert.ToInt32(Console.ReadLine());  // Get spin check mode
 
             // Validate spin selection
@@ -73,6 +73,41 @@ namespace SlotMachine
                         break;
                     }
                 }
+
+            // Check Vertical Mode
+            else if (checkSpin == VERTICAL_MODE)
+            {
+                for (int row = 1; row < SLOT_ROWS; row++)
+                {
+                    if (slotGrid[row, COLUMN_ONE] != slotGrid[ROW_ONE, COLUMN_ONE])
+                    {
+                        checkWin = false;
+                        break;
+                    }
+                }
+            }
+            // Check Horizontal Mode
+            else if (checkSpin == HORIZONTAL_MODE)
+            {
+                checkWin = false;
+                for (int row = 0; row < SLOT_ROWS; row++)
+                {
+                    bool rowMatch = true;
+                    for (int col = 1; col < SLOT_COLUMNS; col++)
+                    {
+                        if (slotGrid[row, COLUMN_ONE] != slotGrid[row, col])
+                        {
+                            rowMatch = false;
+                            break;
+                        }
+                    }
+                    if (rowMatch)
+                    {
+                        checkWin = true;
+                        break;
+                    }
+                }
+            }
 
             if (checkWin)
             {
