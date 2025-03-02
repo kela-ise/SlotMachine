@@ -14,6 +14,7 @@ namespace SlotMachine
             const int BUDGET_INCREMENTER = 2;
             const int UPPER_LIMIT_INCREMENTER = 1;
             const int MIN_WAGER = 1;
+            const int INITIAL_BUDGET = 20;
             /*
             const int VERTICAL_MODE = 2;
             const int HORIZONTAL_MODE = 3;
@@ -21,8 +22,8 @@ namespace SlotMachine
             const int DIAGONAL_MODE = 4;
             const int COLUMN_ONE = 0;
             const string INVALID_CHOICE_MESSAGE = "Invalid choice. Please enter a number between 1 and 4.";
-            int centerRow = SLOT_ROWS / 2;  // Dynamically calculate middle row index
-            int budget = 20; // Player's initial budget
+            int centerRow = SLOT_ROWS / 2;  // Dynamically calculate middle row index 
+            int budget = INITIAL_BUDGET;   // Player's initial budget
 
             Console.WriteLine("This is a Slot Machine Game!");
             Console.WriteLine($"You have ${budget} in your account");
