@@ -39,8 +39,6 @@ namespace SlotMachine
                 return;
             }
 
-         
-
             budget = budget - wager;// Deduct wager from budget
 
             Console.Write("Enter a number to check spin. 1: Center, 2: Vertical, 3: Horizontal:  ");
