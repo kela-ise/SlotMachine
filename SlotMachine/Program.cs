@@ -20,7 +20,8 @@ namespace SlotMachine
             const int DIAGONAL_MODE = 4;
             const int COLUMN_ONE = 0;
             const int ROW_ONE = 0;
-            const string INVALID_CHOICE_MESSAGE = "Invalid choice. Please enter a number between 1 and 4.";
+            string INVALID_CHOICE_MESSAGE = "Invalid choice. Please enter a number between " + CENTER_MODE + " and " + DIAGONAL_MODE + ".";
+
             int centerRow = SLOT_ROWS / 2;  // Dynamically calculate middle row index 
             int budget = INITIAL_BUDGET;   // Player's initial budget
 
@@ -40,8 +41,7 @@ namespace SlotMachine
             }
 
             budget = budget - wager;// Deduct wager from budget
-
-            Console.Write("Enter a number to check spin. 1: Center, 2: Vertical, 3: Horizontal:  ");
+            Console.Write($"Enter a number to check spin. {CENTER_MODE}: Center, {VERTICAL_MODE}: Vertical, {HORIZONTAL_MODE}: Horizontal, {DIAGONAL_MODE}: Diagonal: ");
 
             int checkSpin = Convert.ToInt32(Console.ReadLine());  // Get spin check mode
 
