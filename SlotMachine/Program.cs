@@ -24,20 +24,17 @@ namespace SlotMachine
 
             int centerRow = SLOT_ROWS / 2;  // Dynamically calculate middle row index 
             int budget = INITIAL_BUDGET;   // Player's initial budget
-
-            Console.WriteLine("This is a Slot Machine Game!");
-            Console.WriteLine($"You have ${budget} in your account");
-            Console.Write($"You have ${budget}, Enter your wager amount ");
-            int wager = Convert.ToInt32(Console.ReadLine());
-
             Random random = new Random(); // Random number generator for slot machine spins
             int[,] slotGrid = new int[SLOT_ROWS, SLOT_COLUMNS]; // 3x3 grid representing the slot machine
 
-            //Console.Write("Enter a number between 1 & 4 to check spin: ");
-            if (wager < MIN_WAGER || wager > budget)
+            Console.WriteLine("This is a Slot Machine Game!");
+            Console.WriteLine($"You have ${budget} in your account");
+
+            int wager;
+            Console.Write($"You have ${budget}, Enter your wager amount  (Minimum: ${MIN_WAGER}): ");
+            while (!int.TryParse(Console.ReadLine(), out wager) || wager < MIN_WAGER || wager > budget) // use TryParse to convert user input into an integer
             {
                 Console.WriteLine(INVALID_CHOICE_MESSAGE);
-                return;
             }
 
             budget = budget - wager;// Deduct wager from budget
