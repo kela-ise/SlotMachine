@@ -20,7 +20,8 @@ namespace SlotMachine
             const int DIAGONAL_MODE = 4;
             const int COLUMN_ONE = 0;
             const int ROW_ONE = 0;
-            string INVALID_CHOICE_MESSAGE = "Invalid choice. Please enter a number between " + CENTER_MODE + " and " + DIAGONAL_MODE + ".";
+            string InvalideChoiceMessage = "Invalid choice. Please enter a number between " + CENTER_MODE + " and " + DIAGONAL_MODE + ".";
+            string MessageForSpinCHeckMode=  ($"Enter a number to check spin. {CENTER_MODE}: Center, {VERTICAL_MODE}: Vertical, {HORIZONTAL_MODE}: Horizontal, {DIAGONAL_MODE}: Diagonal: ");
 
             int centerRow = SLOT_ROWS / 2;  // Dynamically calculate middle row index 
             int budget = INITIAL_BUDGET;   // Player's initial budget
@@ -34,19 +35,19 @@ namespace SlotMachine
             Console.Write($"You have ${budget}, Enter your wager amount  (Minimum: ${MIN_WAGER}): ");
             while (!int.TryParse(Console.ReadLine(), out wager) || wager < MIN_WAGER || wager > budget) // use TryParse to convert user input into an integer
             {
-                Console.WriteLine(INVALID_CHOICE_MESSAGE);
+                Console.WriteLine(InvalideChoiceMessage);
             }
 
             budget = budget - wager;// Deduct wager from budget
-            Console.Write($"Enter a number to check spin. {CENTER_MODE}: Center, {VERTICAL_MODE}: Vertical, {HORIZONTAL_MODE}: Horizontal, {DIAGONAL_MODE}: Diagonal: ");
+            Console.Write(MessageForSpinCHeckMode);
 
-            int checkSpin = Convert.ToInt32(Console.ReadLine());  // Get spin check mode
-
-            // Validate spin selection
-            if (checkSpin < CENTER_MODE || checkSpin > DIAGONAL_MODE)
+            int checkSpin;
+            while (true)
             {
-                Console.WriteLine("Invalid choice. Please enter a number between 1 and 4.");
-                return;
+                if (int.TryParse(Console.ReadLine(), out checkSpin) && checkSpin >= CENTER_MODE && checkSpin <= DIAGONAL_MODE)
+                    break; // Valid input, exit the loop
+
+                Console.WriteLine(InvalideChoiceMessage);
             }
 
             bool checkWin = true;
