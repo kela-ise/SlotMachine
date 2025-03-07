@@ -35,7 +35,7 @@ namespace SlotMachine
             Console.Write($"You have ${budget}, Enter your wager amount  (Minimum: ${MIN_WAGER}): ");
             while (!int.TryParse(Console.ReadLine(), out wager) || wager < MIN_WAGER || wager > budget) // use TryParse to convert user input into an integer
             {
-                Console.WriteLine(InvalideChoiceMessage);
+                Console.Write($"Enter an amount within budget ${budget}: ");
             }
 
             budget = budget - wager;// Deduct wager from budget
@@ -50,17 +50,18 @@ namespace SlotMachine
 
                 Console.WriteLine(InvalideChoiceMessage);
             }
-
             bool checkWin = true;
-            if (checkSpin == CENTER_MODE) // Check if the player selected center row check
+            if (checkSpin == CENTER_MODE)    // Check if the player selected center row check
+            {
                 for (int col = 1; col < SLOT_COLUMNS; col++)
                 {
-                    if (slotGrid[centerRow, COLUMN_ONE] != slotGrid[centerRow, col])
+                    if (slotGrid[centerRow, col] != slotGrid[centerRow, COLUMN_ONE]) // Compare with the first column of the center row
                     {
                         checkWin = false;
                         break;
                     }
                 }
+            }
             // Check Vertical Mode for all columns
             else if (checkSpin == VERTICAL_MODE)
             {
