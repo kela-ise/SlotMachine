@@ -20,8 +20,9 @@ namespace SlotMachine
             const int DIAGONAL_MODE = 4;
             const int COLUMN_ONE = 0;
             const int ROW_ONE = 0;
+
             string InvalideChoiceMessage = "Invalid choice. Please enter a number between " + CENTER_MODE + " and " + DIAGONAL_MODE + ".";
-            string MessageForSpinCHeckMode=  ($"Enter a number to check spin. {CENTER_MODE}: Center, {VERTICAL_MODE}: Vertical, {HORIZONTAL_MODE}: Horizontal, {DIAGONAL_MODE}: Diagonal: ");
+            string MessageForSpinCHeckMode = ($"Enter a number to check spin. {CENTER_MODE}: Center, {VERTICAL_MODE}: Vertical, {HORIZONTAL_MODE}: Horizontal, {DIAGONAL_MODE}: Diagonal: ");
 
             int centerRow = SLOT_ROWS / 2;  // Dynamically calculate middle row index 
             int budget = INITIAL_BUDGET;   // Player's initial budget
@@ -106,6 +107,23 @@ namespace SlotMachine
                     }
                 }
             }
+            // Check diagonal mode
+            else if (checkSpin == DIAGONAL_MODE)
+            {
+                bool diagonalMatch = true;
+                int firstElement = slotGrid[ROW_ONE, COLUMN_ONE];
+                for (int i = 1; i < SLOT_ROWS; i++)
+                {
+                    if (slotGrid[i, i] != firstElement)
+
+                    {
+                        diagonalMatch = false;
+                        break;
+                    }
+                }
+                checkWin = diagonalMatch;
+            }
+
 
             for (int rows = 0; rows < SLOT_ROWS; rows++) // iterate through rows & columns to assign & print random numbers
             {
