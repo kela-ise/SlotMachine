@@ -41,6 +41,7 @@ namespace SlotMachine
             budget = budget - wager;// Deduct wager from budget
             Console.Write(MessageForSpinCHeckMode);
 
+            // Validate spin check
             int checkSpin;
             while (true)
             {
@@ -60,15 +61,24 @@ namespace SlotMachine
                         break;
                     }
                 }
-
-            // Check Vertical Mode
+            // Check Vertical Mode for all columns
             else if (checkSpin == VERTICAL_MODE)
             {
-                for (int row = 1; row < SLOT_ROWS; row++)
+                checkWin = false;
+                for (int col = 0; col < SLOT_COLUMNS; col++) // Iterate through all columns
                 {
-                    if (slotGrid[row, COLUMN_ONE] != slotGrid[ROW_ONE, COLUMN_ONE])
+                    bool columnMatch = true;
+                    for (int row = 1; row < SLOT_ROWS; row++) // Check each row in the column
                     {
-                        checkWin = false;
+                        if (slotGrid[row, col] != slotGrid[ROW_ONE, col]) // Compare with the first row
+                        {
+                            columnMatch = false;
+                            break;
+                        }
+                    }
+                    if (columnMatch) // If any column matches, set checkWin to true
+                    {
+                        checkWin = true;
                         break;
                     }
                 }
