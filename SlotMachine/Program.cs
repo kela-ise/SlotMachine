@@ -20,6 +20,8 @@ namespace SlotMachine
             const int DIAGONAL_MODE = 4;
             const int COLUMN_ONE = 0;
             const int ROW_ONE = 0;
+            const int LAST_COLUMN = SLOT_COLUMNS - 1;
+            const int INDEX_OFFSET = 1;
 
             string InvalideChoiceMessage = "Invalid choice. Please enter a number between " + CENTER_MODE + " and " + DIAGONAL_MODE + ".";
             string MessageForSpinCHeckMode = ($"Enter a number to check spin. {CENTER_MODE}: Center, {VERTICAL_MODE}: Vertical, {HORIZONTAL_MODE}: Horizontal, {DIAGONAL_MODE}: Diagonal: ");
@@ -121,18 +123,18 @@ namespace SlotMachine
                 // Check diagonal mode
                 else if (checkSpin == DIAGONAL_MODE)
                 {
-                    bool diagonalMatch = true;
-                    int firstElement = slotGrid[ROW_ONE, COLUMN_ONE];
+                    bool diagonalMatch1 = true;
+                    bool diagonalMatch2 = true;
+
                     for (int i = 1; i < SLOT_ROWS; i++)
                     {
-                        if (slotGrid[i, i] != firstElement)
-
-                        {
-                            diagonalMatch = false;
-                            break;
-                        }
+                        if (slotGrid[i, i] != slotGrid[ROW_ONE, COLUMN_ONE])
+                            diagonalMatch1 = false;
+                        if (slotGrid[i, SLOT_COLUMNS - i - INDEX_OFFSET] != slotGrid[ROW_ONE, LAST_COLUMN])
+                            diagonalMatch2 = false;
                     }
-                    checkWin = diagonalMatch;
+
+                    checkWin = diagonalMatch1 || diagonalMatch2;
                 }
 
                 if (checkWin)
