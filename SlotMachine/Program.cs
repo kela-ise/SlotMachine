@@ -28,124 +28,140 @@ namespace SlotMachine
             int budget = INITIAL_BUDGET;   // Player's initial budget
             Random random = new Random(); // Random number generator for slot machine spins
             int[,] slotGrid = new int[SLOT_ROWS, SLOT_COLUMNS]; // 3x3 grid representing the slot machine
-
-            Console.WriteLine("This is a Slot Machine Game!");
-            Console.WriteLine($"You have ${budget} in your account");
-
-            int wager;
-            Console.Write($"You have ${budget}, Enter your wager amount  (Minimum: ${MIN_WAGER}): ");
-            while (!int.TryParse(Console.ReadLine(), out wager) || wager < MIN_WAGER || wager > budget) // use TryParse to convert user input into an integer
+            while (true) // Keep the game running
             {
-                Console.Write($"Enter an amount within budget ${budget}: ");
-            }
+                Console.WriteLine("\nThis is a Slot Machine Game!");
+                Console.WriteLine($"You have ${budget} in your account");
 
-            budget = budget - wager;// Deduct wager from budget
-            Console.Write(MessageForSpinCHeckMode);
-
-            // Validate spin check
-            int checkSpin;
-            while (true)
-            {
-                if (int.TryParse(Console.ReadLine(), out checkSpin) && checkSpin >= CENTER_MODE && checkSpin <= DIAGONAL_MODE)
-                    break; // Valid input, exit the loop
-
-                Console.WriteLine(InvalideChoiceMessage);
-            }
-            for (int rows = 0; rows < SLOT_ROWS; rows++) // iterate through rows & columns to assign & print random numbers
-            {
-                for (int cols = 0; cols < SLOT_COLUMNS; cols++)
+                int wager;
+                Console.Write($"You have ${budget}, Enter your wager amount  (Minimum: ${MIN_WAGER}): ");
+                while (!int.TryParse(Console.ReadLine(), out wager) || wager < MIN_WAGER || wager > budget) // use TryParse to convert user input into an integer
                 {
-                    slotGrid[rows, cols] = random.Next(LOWER_LIMIT, UPPER_LIMIT + UPPER_LIMIT_INCREMENTER);
-                    Console.Write(slotGrid[rows, cols] + " ");
-
+                    Console.Write($"Enter an amount within budget ${budget}: ");
                 }
-                Console.WriteLine();
-            }
-            bool checkWin = true;
-            if (checkSpin == CENTER_MODE)    // Check if the player selected center row check
-            {
-                for (int col = 1; col < SLOT_COLUMNS; col++)
+
+                budget = budget - wager;// Deduct wager from budget
+                Console.Write(MessageForSpinCHeckMode);
+
+                // Validate spin check
+                int checkSpin;
+                while (true)
                 {
-                    if (slotGrid[centerRow, col] != slotGrid[centerRow, COLUMN_ONE]) // Compare with the first column of the center row
-                    {
-                        checkWin = false;
-                        break;
-                    }
+                    if (int.TryParse(Console.ReadLine(), out checkSpin) && checkSpin >= CENTER_MODE && checkSpin <= DIAGONAL_MODE)
+                        break; // Valid input, exit the loop
+
+                    Console.WriteLine(InvalideChoiceMessage);
                 }
-            }
-            // Check Vertical Mode for all columns
-            else if (checkSpin == VERTICAL_MODE)
-            {
-                checkWin = false;
-                for (int col = 0; col < SLOT_COLUMNS; col++) // Iterate through all columns
+                for (int rows = 0; rows < SLOT_ROWS; rows++) // iterate through rows & columns to assign & print random numbers
                 {
-                    bool columnMatch = true;
-                    for (int row = 1; row < SLOT_ROWS; row++) // Check each row in the column
+                    for (int cols = 0; cols < SLOT_COLUMNS; cols++)
                     {
-                        if (slotGrid[row, col] != slotGrid[ROW_ONE, col]) // Compare with the first row
-                        {
-                            columnMatch = false;
-                            break;
-                        }
+                        slotGrid[rows, cols] = random.Next(LOWER_LIMIT, UPPER_LIMIT + UPPER_LIMIT_INCREMENTER);
+                        Console.Write(slotGrid[rows, cols] + " ");
+
                     }
-                    if (columnMatch) // If any column matches, set checkWin to true
-                    {
-                        checkWin = true;
-                        break;
-                    }
+                    Console.WriteLine();
                 }
-            }
-            // Check Horizontal Mode
-            else if (checkSpin == HORIZONTAL_MODE)
-            {
-                checkWin = false;
-                for (int row = 0; row < SLOT_ROWS; row++)
+                bool checkWin = true;
+                if (checkSpin == CENTER_MODE)    // Check if the player selected center row check
                 {
-                    bool rowMatch = true;
                     for (int col = 1; col < SLOT_COLUMNS; col++)
                     {
-                        if (slotGrid[row, COLUMN_ONE] != slotGrid[row, col])
+                        if (slotGrid[centerRow, col] != slotGrid[centerRow, COLUMN_ONE]) // Compare with the first column of the center row
                         {
-                            rowMatch = false;
+                            checkWin = false;
                             break;
                         }
                     }
-                    if (rowMatch)
-                    {
-                        checkWin = true;
-                        break;
-                    }
                 }
-            }
-            // Check diagonal mode
-            else if (checkSpin == DIAGONAL_MODE)
-            {
-                bool diagonalMatch = true;
-                int firstElement = slotGrid[ROW_ONE, COLUMN_ONE];
-                for (int i = 1; i < SLOT_ROWS; i++)
+                // Check Vertical Mode for all columns
+                else if (checkSpin == VERTICAL_MODE)
                 {
-                    if (slotGrid[i, i] != firstElement)
-
+                    checkWin = false;
+                    for (int col = 0; col < SLOT_COLUMNS; col++) // Iterate through all columns
                     {
-                        diagonalMatch = false;
-                        break;
+                        bool columnMatch = true;
+                        for (int row = 1; row < SLOT_ROWS; row++) // Check each row in the column
+                        {
+                            if (slotGrid[row, col] != slotGrid[ROW_ONE, col]) // Compare with the first row
+                            {
+                                columnMatch = false;
+                                break;
+                            }
+                        }
+                        if (columnMatch) // If any column matches, set checkWin to true
+                        {
+                            checkWin = true;
+                            break;
+                        }
                     }
                 }
-                checkWin = diagonalMatch;
-            }
+                // Check Horizontal Mode
+                else if (checkSpin == HORIZONTAL_MODE)
+                {
+                    checkWin = false;
+                    for (int row = 0; row < SLOT_ROWS; row++)
+                    {
+                        bool rowMatch = true;
+                        for (int col = 1; col < SLOT_COLUMNS; col++)
+                        {
+                            if (slotGrid[row, COLUMN_ONE] != slotGrid[row, col])
+                            {
+                                rowMatch = false;
+                                break;
+                            }
+                        }
+                        if (rowMatch)
+                        {
+                            checkWin = true;
+                            break;
+                        }
+                    }
+                }
+                // Check diagonal mode
+                else if (checkSpin == DIAGONAL_MODE)
+                {
+                    bool diagonalMatch = true;
+                    int firstElement = slotGrid[ROW_ONE, COLUMN_ONE];
+                    for (int i = 1; i < SLOT_ROWS; i++)
+                    {
+                        if (slotGrid[i, i] != firstElement)
 
-            if (checkWin)
-            {
-                int winnings = wager + BUDGET_INCREMENTER;
-                budget += winnings;
-                Console.WriteLine($"There's a match. You Won ${winnings}");
-                // Console.WriteLine(++winCount);
+                        {
+                            diagonalMatch = false;
+                            break;
+                        }
+                    }
+                    checkWin = diagonalMatch;
+                }
+
+                if (checkWin)
+                {
+                    int winnings = wager + BUDGET_INCREMENTER;
+                    budget += winnings;
+                    Console.WriteLine($"There's a match. You Won ${winnings}");
+                    // Console.WriteLine(++winCount);
+                }
+                else
+                {
+                    Console.WriteLine("No match found");
+                }
+                Console.WriteLine($"Your remaining budget: ${budget}");
+
+                if (budget < MIN_WAGER)
+                {
+                    Console.WriteLine("\nGame Over! You're out of money");
+                    break; // Exit loop/game when budget is < 1(MIN_WAGER)
+                }
+                Console.Write("\nEnter 'Y' to continue playing or anything else to end game: ");  // Ask if the player wants to continue playing
+                string playersResponse = Console.ReadLine().ToUpper();
+                if (playersResponse != "Y")
+                {
+                    Console.WriteLine($"Game Over");
+                    break;
+
+                }
             }
-            else
-            {
-                Console.WriteLine("No match found");
-            }
-            Console.WriteLine($"Your remaining budget: ${budget}");
 
         }
     }
