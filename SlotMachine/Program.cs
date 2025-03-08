@@ -51,6 +51,16 @@ namespace SlotMachine
 
                 Console.WriteLine(InvalideChoiceMessage);
             }
+            for (int rows = 0; rows < SLOT_ROWS; rows++) // iterate through rows & columns to assign & print random numbers
+            {
+                for (int cols = 0; cols < SLOT_COLUMNS; cols++)
+                {
+                    slotGrid[rows, cols] = random.Next(LOWER_LIMIT, UPPER_LIMIT + UPPER_LIMIT_INCREMENTER);
+                    Console.Write(slotGrid[rows, cols] + " ");
+
+                }
+                Console.WriteLine();
+            }
             bool checkWin = true;
             if (checkSpin == CENTER_MODE)    // Check if the player selected center row check
             {
@@ -122,18 +132,6 @@ namespace SlotMachine
                     }
                 }
                 checkWin = diagonalMatch;
-            }
-
-
-            for (int rows = 0; rows < SLOT_ROWS; rows++) // iterate through rows & columns to assign & print random numbers
-            {
-                for (int cols = 0; cols < SLOT_COLUMNS; cols++)
-                {
-                    slotGrid[rows, cols] = random.Next(LOWER_LIMIT, UPPER_LIMIT + UPPER_LIMIT_INCREMENTER);
-                    Console.Write(slotGrid[rows, cols] + " ");
-
-                }
-                Console.WriteLine();
             }
 
             if (checkWin)
